@@ -13,18 +13,18 @@ from PIL import ImageEnhance
 
 class MainWindow(QtGui.QMainWindow):
     def __init__(self, parent=None):
-        super(MainWindow, self).__init__()   
-        
+        super(MainWindow, self).__init__()
+
         self.setWindowTitle('drawQT')
-       
-        self.form_widget = Window(self) 
+
+        self.form_widget = Window(self)
         self.setCentralWidget(self.form_widget)
-        
+
         self.createActions()
 
     def createActions(self):
         openAction = QtGui.QAction(QtGui.QIcon('exit24.png'), "Open Image", self, shortcut="Ctrl+O",
-                triggered=self.close)
+                triggered=Window.btnLoad)
         loadDataAction = QtGui.QAction("Load Data", self, shortcut="Ctrl+D",
                 triggered=self.close)
         exitAction = QtGui.QAction("Exit", self, shortcut="Ctrl+Q",
@@ -81,7 +81,7 @@ class Window(QtGui.QWidget):
 
 
         self.lytHorView.addWidget(self.view)
-        
+
 
         self.lytVert.addLayout(self.lytHorView)
         self.lytVert.addWidget(self.slrBrigthness)
@@ -134,12 +134,12 @@ class Window(QtGui.QWidget):
             for i in range(len(self.view.lines)):
                 l=self.view.lines[i]
                 lF=l.line()
-                curCoord=[lF.x1(), lF.y1(), lF.x2(), lF.y2()]           
+                curCoord=[lF.x1(), lF.y1(), lF.x2(), lF.y2()]
                 self.coordinates.append(curCoord)
         #self.view.scene.clear()
         self.view.lines = []
         #print(self.coordinates)
-        
+
         sliderBrigthnessValue = self.slrBrigthness.value()
         curBr=float(sliderBrigthnessValue)/25.0
         print(curBr)
@@ -158,9 +158,9 @@ class Window(QtGui.QWidget):
         self.view.scene.update()
         if len(self.coordinates) > 0:
             self.view.redrawLines(self.coordinates)
-        
-        
-    
+
+
+
     def updateContrast(self):
         pass
 
@@ -216,7 +216,7 @@ class View(QtGui.QGraphicsView):
 #                print(l)
 #                lF=l.line()
 
-        
+
 if __name__ == '__main__':
 
     import sys
