@@ -21,17 +21,15 @@ class MainWindow(QtGui.QMainWindow):
         self.setCentralWidget(self.form_widget)
         
         self.createActions()
-#        self.createMenu()
 
     def createActions(self):
-        openAction = QtGui.QAction("Open Image", self, shortcut="Ctrl+O",
+        openAction = QtGui.QAction(QtGui.QIcon('exit24.png'), "Open Image", self, shortcut="Ctrl+O",
                 triggered=self.close)
         loadDataAction = QtGui.QAction("Load Data", self, shortcut="Ctrl+D",
                 triggered=self.close)
         exitAction = QtGui.QAction("Exit", self, shortcut="Ctrl+Q",
                 triggered=self.close)
-        
-#    def createMenu(self):
+
         menubar = self.menuBar()
         fileMenu = menubar.addMenu('File')
         fileMenu.addAction(openAction)
@@ -42,16 +40,14 @@ class MainWindow(QtGui.QMainWindow):
         fileMenu = menubar.addMenu('Settings')
         fileMenu = menubar.addMenu('About')
 
-      
 
 
 class Window(QtGui.QWidget):
     def __init__(self, parent):
         super(Window, self).__init__()
-        
-         
-            
+
         self.view = View(self)
+
 
         self.btnLoad = QtGui.QPushButton('Load', self)
         self.btnLoad.setIcon(QtGui.QIcon('./res/open.ico')) #Загрузка картинки
@@ -60,7 +56,7 @@ class Window(QtGui.QWidget):
         self.btnClearView = QtGui.QPushButton('Clear View', self)
         self.btnPlot = QtGui.QPushButton('Plot', self)
 
-        self.btnQuit = QtGui.QPushButton('Quit', self)
+
         self.slrBrigthness = QtGui.QSlider(QtCore.Qt.Horizontal, self)
 #       self.lcdBrigthness = QtGui.QLCDNumber(self)
         self.slrBrigthness.setTickPosition (QtGui.QSlider.TicksBelow)
@@ -78,11 +74,11 @@ class Window(QtGui.QWidget):
 
 
         #add to layout's
-#        self.lytHorButtons.addWidget(self.lcdBrigthness)
+#       self.lytHorButtons.addWidget(self.lcdBrigthness)
         self.lytHorButtons.addWidget(self.btnLoad)
         self.lytHorButtons.addWidget(self.btnClearView)
         self.lytHorButtons.addWidget(self.btnPlot)
-        self.lytHorButtons.addWidget(self.btnQuit)
+
 
         self.lytHorView.addWidget(self.view)
         
@@ -97,8 +93,8 @@ class Window(QtGui.QWidget):
         #SLOT's
         self.btnClearView.clicked.connect(self.handleClearView)
         self.btnLoad.clicked.connect(self.handleLoad)
-        self.connect(self.btnQuit, QtCore.SIGNAL("clicked()"), QtGui.qApp.quit)
-#        self.connect(self.slrBrigthness, QtCore.SIGNAL('valueChanged(int)'),
+
+#       self.connect(self.slrBrigthness, QtCore.SIGNAL('valueChanged(int)'),
 #                     self.lcdBrigthness, QtCore.SLOT('display(int)') )
         self.connect(self.slrBrigthness, QtCore.SIGNAL('valueChanged(int)'),
                      self.updateBrigthness)
@@ -117,12 +113,12 @@ class Window(QtGui.QWidget):
         #self.view.setSceneRect(0, 0, 0, 0)
     def handleLoad(self):
         self.fname = QtGui.QFileDialog.getOpenFileName(self, 'Open file', '/home/argentum/Python_work')
-        print("Loaded file:")        
+        print("Loaded file:")
         print(self.fname)
         #print(type(fname))
         #print(type(str(fname)))
         self.imgPath = str(self.fname)
-        img=Image.open(self.imgPath)      
+        img=Image.open(self.imgPath)
         w, h = img.size
         self.imgQ = ImageQt.ImageQt(img)
         pixMap = QtGui.QPixmap.fromImage(self.imgQ)
