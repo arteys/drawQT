@@ -4,9 +4,7 @@
 """
 ZetCode PyQt4 tutorial
 
-This program creates a skeleton of
-a classic GUI application with a menubar,
-toolbar, statusbar and a central widget.
+This example shows a QtGui.QSlider widget.
 
 author: Jan Bodnar
 website: zetcode.com
@@ -14,9 +12,9 @@ last edited: September 2011
 """
 
 import sys
-from PyQt4 import QtGui
+from PyQt4 import QtGui, QtCore
 
-class Example(QtGui.QMainWindow):
+class Example(QtGui.QWidget):
 
     def __init__(self):
         super(Example, self).__init__()
@@ -25,27 +23,30 @@ class Example(QtGui.QMainWindow):
 
     def initUI(self):
 
-        textEdit = QtGui.QTextEdit()
-        self.setCentralWidget(textEdit)
+        sld = QtGui.QSlider(QtCore.Qt.Horizontal, self)
+        sld.setFocusPolicy(QtCore.Qt.NoFocus)
+        sld.setGeometry(30, 40, 100, 30)
+        sld.valueChanged[int].connect(self.changeValue)
 
-        exitAction = QtGui.QAction(QtGui.QIcon('exit24.png'), 'Exit', self)
-        exitAction.setShortcut('Ctrl+Q')
-        exitAction.setStatusTip('Exit application')
-        exitAction.triggered.connect(self.close)
+        self.label = QtGui.QLabel(self)
+        self.label.setPixmap(QtGui.QPixmap('mute.png'))
+        self.label.setGeometry(160, 40, 80, 30)
 
-        self.statusBar()
-
-        menubar = self.menuBar()
-        fileMenu = menubar.addMenu('&File')
-        fileMenu.addAction(exitAction)
-
-        toolbar = self.addToolBar('Exit')
-        toolbar.addAction(exitAction)
-
-        self.setGeometry(300, 300, 350, 250)
-        self.setWindowTitle('Main window')
+        self.setGeometry(300, 300, 280, 170)
+        self.setWindowTitle('QtGui.QSlider')
         self.show()
 
+    def changeValue(self, value):
+
+        print
+        if value == 0:
+            self.label.setPixmap(QtGui.QPixmap('./res/open.png'))
+        elif value > 0 and value <= 30:
+            self.label.setPixmap(QtGui.QPixmap('./res/dataload.png'))
+        elif value > 30 and value < 80:
+            self.label.setPixmap(QtGui.QPixmap('med.png'))
+        else:
+            self.label.setPixmap(QtGui.QPixmap('max.png'))
 
 def main():
 

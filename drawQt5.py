@@ -11,6 +11,9 @@ from PIL import Image
 from PIL import ImageQt
 from PIL import ImageEnhance
 import drawQt5widget
+import imagePropwidget
+import tableResultwidget
+import histResultwidget
 
 
 class MainWindow(QtGui.QMainWindow):
@@ -21,7 +24,6 @@ class MainWindow(QtGui.QMainWindow):
 
         self.form_widget = drawQt5widget.Window(self)
         self.setCentralWidget(self.form_widget)
-
         self.createActions()
 
     def createActions(self):
@@ -35,8 +37,10 @@ class MainWindow(QtGui.QMainWindow):
                 triggered=self.clearEvent)
         tableAction = QtGui.QAction(QtGui.QIcon('./res/table.png'), "Create Result Table", self, shortcut="Ctrl+T",
                 triggered=self.createTableWindow)
+        imagePropAction = QtGui.QAction(QtGui.QIcon('./res/improp.png'), "Create Result Table", self, shortcut="Ctrl+I",
+                triggered=self.createImagePropWindow)
         histAction = QtGui.QAction(QtGui.QIcon('./res/hist.png'), "Create Result Histogram", self, shortcut="Ctrl+H",
-                triggered=self.empty)
+                triggered=self.createHistPropWindow)
         zoomPlusAction = QtGui.QAction(QtGui.QIcon('./res/zoomplus.png'), "Zoom +20%", self, shortcut="Ctrl++",
                 triggered=self.empty)
         zoomMinusAction = QtGui.QAction(QtGui.QIcon('./res/zoomminus.png'), "Zoom -20%", self, shortcut="Ctrl+-",
@@ -55,6 +59,7 @@ class MainWindow(QtGui.QMainWindow):
         fileMenu.addAction(histAction)
         fileMenu = menubar.addMenu('Edit')
         fileMenu.addAction(clearAction)
+        fileMenu.addAction(imagePropAction)
         fileMenu = menubar.addMenu('View')
         fileMenu.addAction(zoomNormalAction)
         fileMenu.addAction(zoomPlusAction)
@@ -72,12 +77,23 @@ class MainWindow(QtGui.QMainWindow):
         toolbarrview.addAction(zoomPlusAction)
         toolbarrview.addAction(zoomMinusAction)
         toolbaredit = self.addToolBar('Edit')
+        toolbaredit.addAction(imagePropAction)
         toolbaredit.addAction(clearAction)
 
-    def createTableWindow(self):
-        # here put the code that creates the new window and shows it.
-        child = MyWindow(self)
-        child.show()
+    def createTableWindow(self):           # Create image properties widget
+        tabchild = tableResultwidget.TableResultWindow(self)
+        tabchild.show()
+
+    def createImagePropWindow(self):           # Create table widget
+
+        imchild = imagePropwidget.ImagePropWindow(self)
+        imchild.show()
+
+    def createHistPropWindow(self):           # Create histogram widget
+
+        histchild = histResultwidget.HistResultWindow(self)
+        histchild.show()
+
 
     def empty(self):
         pass
@@ -100,16 +116,6 @@ class MainWindow(QtGui.QMainWindow):
         else:
             event.ignore()
 
-class MyWindow(QtGui.QDialog):    # any super class is okay
-    def __init__(self, parent=None):
-        super(MyWindow, self).__init__(parent)
-        self.button = QtGui.QPushButton('Press')
-        layout = QtGui.QHBoxLayout()
-        layout.addWidget(self.button)
-        self.setLayout(layout)
-        self.button.clicked.connect(self.create_child)
-    def create_child(self):
-        pass
 
 if __name__ == '__main__':
 
