@@ -12,6 +12,7 @@ from PIL import ImageQt
 from PIL import ImageEnhance
 import drawQt5widget
 
+
 class MainWindow(QtGui.QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__()
@@ -31,10 +32,16 @@ class MainWindow(QtGui.QMainWindow):
         exitAction = QtGui.QAction("Exit", self, shortcut="Ctrl+Q",
                 triggered=self.close)
         clearAction = QtGui.QAction(QtGui.QIcon('./res/clear.png'), "Clear View", self, shortcut="Ctrl+N",
-                triggered=self.form_widget.handleClearView)
+                triggered=self.clearEvent)
         tableAction = QtGui.QAction(QtGui.QIcon('./res/table.png'), "Create Result Table", self, shortcut="Ctrl+T",
-                triggered=self.empty)
+                triggered=self.createTableWindow)
         histAction = QtGui.QAction(QtGui.QIcon('./res/hist.png'), "Create Result Histogram", self, shortcut="Ctrl+H",
+                triggered=self.empty)
+        zoomPlusAction = QtGui.QAction(QtGui.QIcon('./res/zoomplus.png'), "Zoom +20%", self, shortcut="Ctrl++",
+                triggered=self.empty)
+        zoomMinusAction = QtGui.QAction(QtGui.QIcon('./res/zoomminus.png'), "Zoom -20%", self, shortcut="Ctrl+-",
+                triggered=self.empty)
+        zoomNormalAction = QtGui.QAction(QtGui.QIcon('./res/zoomoptimal.png'), "Zoom 100%", self, shortcut="Ctrl+L",
                 triggered=self.empty)
 
         menubar = self.menuBar()
@@ -48,7 +55,10 @@ class MainWindow(QtGui.QMainWindow):
         fileMenu.addAction(histAction)
         fileMenu = menubar.addMenu('Edit')
         fileMenu.addAction(clearAction)
-        fileMenu = menubar.addMenu('Settings')
+        fileMenu = menubar.addMenu('View')
+        fileMenu.addAction(zoomNormalAction)
+        fileMenu.addAction(zoomPlusAction)
+        fileMenu.addAction(zoomMinusAction)
         fileMenu = menubar.addMenu('About')
 
         toolbarfile = self.addToolBar('File')
@@ -57,11 +67,48 @@ class MainWindow(QtGui.QMainWindow):
         toolbarresult = self.addToolBar('Result')
         toolbarresult.addAction(histAction)
         toolbarresult.addAction(tableAction)
+        toolbarrview = self.addToolBar('Result')
+        toolbarrview.addAction(zoomNormalAction)
+        toolbarrview.addAction(zoomPlusAction)
+        toolbarrview.addAction(zoomMinusAction)
         toolbaredit = self.addToolBar('Edit')
         toolbaredit.addAction(clearAction)
 
+    def createTableWindow(self):
+        # here put the code that creates the new window and shows it.
+        child = MyWindow(self)
+        child.show()
 
     def empty(self):
+        pass
+
+    def clearEvent(self):
+        reply = QtGui.QMessageBox.question(self, 'Message',
+            "Are you sure to clear all?", QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+
+        if reply == QtGui.QMessageBox.Yes:
+            self.form_widget.handleClearView()
+        else:
+            pass
+
+    def closeEvent(self, event):
+        reply = QtGui.QMessageBox.question(self, 'Message',
+            "Are you sure to quit?", QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+
+        if reply == QtGui.QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+
+class MyWindow(QtGui.QDialog):    # any super class is okay
+    def __init__(self, parent=None):
+        super(MyWindow, self).__init__(parent)
+        self.button = QtGui.QPushButton('Press')
+        layout = QtGui.QHBoxLayout()
+        layout.addWidget(self.button)
+        self.setLayout(layout)
+        self.button.clicked.connect(self.create_child)
+    def create_child(self):
         pass
 
 if __name__ == '__main__':
