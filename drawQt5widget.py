@@ -60,8 +60,7 @@ class Window(QtGui.QWidget):
         self.view.scene.addItem(self.pixItem)
         self.view.fitInView(QtCore.QRectF(0, 0, w, h), QtCore.Qt.KeepAspectRatio)
         self.view.scene.update()
-        self.slrBrightness.setDisabled(False)
-        self.slrContrast.setDisabled(False)
+
     
     def updateBrightnessContrast(self, evnt):
         if len(self.view.lines) > 0:
@@ -72,8 +71,8 @@ class Window(QtGui.QWidget):
                 curCoord=[lF.x1(), lF.y1(), lF.x2(), lF.y2()]           
                 self.coordinates.append(curCoord)
             self.view.lines = []      
-        sliderBrightnessValue = self.slrBrightness.value()
-        sliderContrastValue = self.slrContrast.value()
+        sliderBrightnessValue = self.prop_widget.sldbright.value()
+        sliderContrastValue = self.prop_widget.sldcontr.value()
         self.curBr=float(sliderBrightnessValue)/50.0
         self.curCt=float(sliderContrastValue)/50.0
 #        print("Brightness: "),
