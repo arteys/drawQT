@@ -2,7 +2,7 @@
 """
 Created on Thu May  8 02:46:29 2014
 
-@author: argentum
+@author: argentum, arteys
 """
 
 from PyQt4 import QtGui, QtCore
@@ -18,57 +18,21 @@ class Window(QtGui.QWidget):
         self.view.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.view.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.view.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        self.btnLoad = QtGui.QPushButton('Load', self)
-        self.btnClearView = QtGui.QPushButton('Clear View', self)
-        self.btnPlot = QtGui.QPushButton('Plot', self)
-        self.btnQuit = QtGui.QPushButton('Quit', self)
-        self.lcdBrightness = QtGui.QLCDNumber(self)
-        
-        
-        #Slider Brightness
-        self.slrBrightness = QtGui.QSlider(QtCore.Qt.Horizontal, self)
-        self.slrBrightness.setTickPosition (QtGui.QSlider.TicksBelow)
-        self.slrBrightness.setMinimum(1)
-        self.slrBrightness.setMaximum(100)
-        self.slrBrightness.setValue(50)
-        self.slrBrightness.setTickInterval(1)
-        self.slrBrightness.setDisabled(True)
-        #Slider Contrast
-        self.slrContrast = QtGui.QSlider(QtCore.Qt.Horizontal, self)
-        self.slrBrightness.setTickPosition (QtGui.QSlider.TicksBelow)
-        self.slrContrast.setMinimum(1)
-        self.slrContrast.setMaximum(100)
-        self.slrContrast.setValue(50)
-        self.slrContrast.setTickInterval(1)
-        self.slrContrast.setDisabled(True)
-        #CONSTRUCTION
+
+
+
         #layout's
         self.lytVert = QtGui.QVBoxLayout()
         self.lytHorButtons = QtGui.QHBoxLayout()
         self.lytHorView = QtGui.QHBoxLayout()
+
         #add to layout's
-        self.lytHorButtons.addWidget(self.lcdBrightness)
-        self.lytHorButtons.addWidget(self.btnLoad)
-        self.lytHorButtons.addWidget(self.btnClearView)
-        self.lytHorButtons.addWidget(self.btnPlot)
-        self.lytHorButtons.addWidget(self.btnQuit)
         self.lytHorView.addWidget(self.view)
-        #self.lytHorView.addWidget(self.slrContrast)
         self.lytVert.addLayout(self.lytHorView)
-        self.lytVert.addWidget(self.slrBrightness)
-        self.lytVert.addWidget(self.slrContrast)
+
         self.lytVert.addLayout(self.lytHorButtons)
         self.setLayout(self.lytVert)
-        #SLOT's
-        self.btnClearView.clicked.connect(self.handleClearView)
-        self.btnLoad.clicked.connect(self.handleLoad)
-        self.connect(self.btnQuit, QtCore.SIGNAL("clicked()"), QtGui.qApp.quit)
-        self.connect(self.slrBrightness, QtCore.SIGNAL('valueChanged(int)'),
-                     self.lcdBrightness, QtCore.SLOT('display(int)') )
-        self.connect(self.slrBrightness, QtCore.SIGNAL('valueChanged(int)'),
-                     self.updateBrightnessContrast)
-        self.connect(self.slrContrast, QtCore.SIGNAL('valueChanged(int)'),
-                     self.updateBrightnessContrast)
+
         #CONSTANT's
         self.coordinates=[]
 
@@ -119,7 +83,8 @@ class Window(QtGui.QWidget):
 #        print("Contrast: "),
 #        print(self.curCt)
         self.view.scene.clear()
-        
+
+
         curImageStateBr=self.img
         enhancerBr = ImageEnhance.Brightness(curImageStateBr)
         curImageStateBr = enhancerBr.enhance(self.curBr)

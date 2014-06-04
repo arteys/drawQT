@@ -31,13 +31,15 @@ class MainWindow(QtGui.QMainWindow):
                 triggered=self.form_widget.handleLoad)
         loadDataAction = QtGui.QAction(QtGui.QIcon('./res/dataload.png'), "Load Data", self, shortcut="Ctrl+D",
                 triggered=self.empty)
+        saveDataAction = QtGui.QAction(QtGui.QIcon('./res/save.png'), "Save Data", self, shortcut="Ctrl+S",
+                triggered=self.empty)
         exitAction = QtGui.QAction("Exit", self, shortcut="Ctrl+Q",
                 triggered=self.close)
         clearAction = QtGui.QAction(QtGui.QIcon('./res/clear.png'), "Clear View", self, shortcut="Ctrl+N",
                 triggered=self.clearEvent)
         tableAction = QtGui.QAction(QtGui.QIcon('./res/table.png'), "Create Result Table", self, shortcut="Ctrl+T",
                 triggered=self.createTableWindow)
-        imagePropAction = QtGui.QAction(QtGui.QIcon('./res/improp.png'), "Create Result Table", self, shortcut="Ctrl+I",
+        imagePropAction = QtGui.QAction(QtGui.QIcon('./res/improp.png'), "Image Properties", self, shortcut="Ctrl+I",
                 triggered=self.createImagePropWindow)
         histAction = QtGui.QAction(QtGui.QIcon('./res/hist.png'), "Create Result Histogram", self, shortcut="Ctrl+H",
                 triggered=self.createHistPropWindow)
@@ -52,6 +54,7 @@ class MainWindow(QtGui.QMainWindow):
         fileMenu = menubar.addMenu('File')
         fileMenu.addAction(openAction)
         fileMenu.addAction(loadDataAction)
+        fileMenu.addAction(saveDataAction)
         fileMenu.addSeparator()
         fileMenu.addAction(exitAction)
         fileMenu = menubar.addMenu('Result')
@@ -69,6 +72,7 @@ class MainWindow(QtGui.QMainWindow):
         toolbarfile = self.addToolBar('File')
         toolbarfile.addAction(openAction)
         toolbarfile.addAction(loadDataAction)
+        toolbarfile.addAction(saveDataAction)
         toolbarresult = self.addToolBar('Result')
         toolbarresult.addAction(histAction)
         toolbarresult.addAction(tableAction)
@@ -85,12 +89,10 @@ class MainWindow(QtGui.QMainWindow):
         tabchild.show()
 
     def createImagePropWindow(self):           # Create table widget
-
         imchild = imagePropwidget.ImagePropWindow(self)
         imchild.show()
 
     def createHistPropWindow(self):           # Create histogram widget
-
         histchild = histResultwidget.HistResultWindow(self)
         histchild.show()
 
