@@ -40,8 +40,6 @@ class Window(QtGui.QWidget):
     def handleClearView(self):
         self.view.scene.clear()
         self.view.lines=[]
-        self.slrBrightness.setDisabled(True)
-        self.slrContrast.setDisabled(True)
         #self.view.setSceneRect(0, 0, 0, 0)
     def handleLoad(self):
         if len(self.view.lines) > 0:

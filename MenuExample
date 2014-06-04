@@ -1,59 +1,46 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
-"""
-ZetCode PyQt4 tutorial
-
-This example shows a QtGui.QSlider widget.
-
-author: Jan Bodnar
-website: zetcode.com
-last edited: September 2011
-"""
-
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
 import sys
-from PyQt4 import QtGui, QtCore
 
-class Example(QtGui.QWidget):
-
-    def __init__(self):
-        super(Example, self).__init__()
-
-        self.initUI()
-
-    def initUI(self):
-
-        sld = QtGui.QSlider(QtCore.Qt.Horizontal, self)
-        sld.setFocusPolicy(QtCore.Qt.NoFocus)
-        sld.setGeometry(30, 40, 100, 30)
-        sld.valueChanged[int].connect(self.changeValue)
-
-        self.label = QtGui.QLabel(self)
-        self.label.setPixmap(QtGui.QPixmap('mute.png'))
-        self.label.setGeometry(160, 40, 80, 30)
-
-        self.setGeometry(300, 300, 280, 170)
-        self.setWindowTitle('QtGui.QSlider')
-        self.show()
-
-    def changeValue(self, value):
-
-        print
-        if value == 0:
-            self.label.setPixmap(QtGui.QPixmap('./res/open.png'))
-        elif value > 0 and value <= 30:
-            self.label.setPixmap(QtGui.QPixmap('./res/dataload.png'))
-        elif value > 30 and value < 80:
-            self.label.setPixmap(QtGui.QPixmap('med.png'))
-        else:
-            self.label.setPixmap(QtGui.QPixmap('max.png'))
+my_array = [['00','01','02'],
+            ['10','11','12'],
+            ['20','21','22']]
 
 def main():
-
-    app = QtGui.QApplication(sys.argv)
-    ex = Example()
+    app = QApplication(sys.argv)
+    w = TableResultWindow()
+    w.show()
     sys.exit(app.exec_())
 
+class TableResultWindow(QWidget):
+    def __init__(self, *args):
+        QWidget.__init__(self, *args)
 
-if __name__ == '__main__':
+        tablemodel = MyTableModel(my_array, self)
+        tableview = QTableView()
+        tableview.setModel(tablemodel)
+
+        layout = QVBoxLayout(self)
+        layout.addWidget(tableview)
+        self.setLayout(layout)
+
+class MyTableModel(QAbstractTableModel):
+    def __init__(self, datain, parent=None, *args):
+        QAbstractTableModel.__init__(self, parent, *args)
+        self.arraydata = datain
+
+    def rowCount(self, parent):
+        return len(self.arraydata)
+
+    def columnCount(self, parent):
+        return len(self.arraydata[0])
+
+    def data(self, index, role):
+        if not index.isValid():
+            return QVariant()
+        elif role != Qt.DisplayRole:
+            return QVariant()
+        return QVariant(self.arraydata[index.row()][index.column()])
+
+if __name__ == "__main__":
     main()
