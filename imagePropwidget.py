@@ -16,7 +16,7 @@ class ImagePropWindow(QtGui.QMainWindow):
 
         self.sldbright = QtGui.QSlider(QtCore.Qt.Horizontal, self)
         self.sldbright.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.sldbright.setGeometry(30, 20, 300, 30)
+        self.sldbright.setGeometry(40, 20, 300, 30)
         self.sldbright.setValue(50)
         self.sldbright.setMaximum(100)
         self.sldbright.setMinimum(1)
@@ -25,22 +25,27 @@ class ImagePropWindow(QtGui.QMainWindow):
 
         self.sldcontr = QtGui.QSlider(QtCore.Qt.Horizontal, self)
         self.sldcontr.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.sldcontr.setGeometry(30, 60, 300, 30)
+        self.sldcontr.setGeometry(40, 60, 300, 30)
         self.sldcontr.setValue(50)
         self.sldcontr.setMaximum(100)
         self.sldcontr.setMinimum(1)
         #self.sldcontr.setDisabled(True)
         #self.sldcontr.valueChanged[int].connect(self.changeValueContr)
 
-        self.labelbright = QtGui.QLabel(self)
-        self.labelbright.setPixmap(QtGui.QPixmap('./res/bright.png'))
-        self.labelbright.setGeometry(10, 20, 15, 30)
+        self.labelbright = QtGui.QPushButton(self)
+        self.labelbright.setGeometry(10, 20, 22, 22)
+        self.labelbright.setIcon(QtGui.QIcon('./res/bright.png'))
+        self.labelbright.setIconSize(QtCore.QSize(24,24))
+        self.labelbright.clicked.connect(self.setValueBright)
 
-        self.labelcontr = QtGui.QLabel(self)
-        self.labelcontr.setPixmap(QtGui.QPixmap('./res/contr.png'))
-        self.labelcontr.setGeometry(10, 60, 15, 30)
+        self.labelcontr = QtGui.QPushButton(self)
+        self.labelcontr.setGeometry(10, 60, 22, 22)
+        self.labelcontr.setIcon(QtGui.QIcon('./res/contr.png'))
+        self.labelcontr.setIconSize(QtCore.QSize(24,24))
+        self.labelcontr.clicked.connect(self.setValueContr)
 
-        self.setGeometry(300, 300, 350, 170)
+
+        self.setGeometry(300, 300, 380, 170)
         self.show()
 
     #Slots
@@ -49,7 +54,10 @@ class ImagePropWindow(QtGui.QMainWindow):
         self.connect(self.sldcontr, QtCore.SIGNAL('valueChanged(int)'),
                      self.draw_widget.updateBrightnessContrast)
 
-
+    def setValueBright(self):
+        self.sldbright.setValue(50)
+    def setValueContr(self):
+        self.sldcontr.setValue(50)
 
     def empty(self):
         pass
