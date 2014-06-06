@@ -2,7 +2,7 @@
 """
 Created on Thu May  8 02:46:29 2014
 
-@author: argentum
+@author: argentum, arteys
 """
 
 from PyQt4 import QtGui, QtCore
