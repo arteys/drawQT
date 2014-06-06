@@ -13,16 +13,13 @@ class ImagePropWindow(QtGui.QMainWindow):
         self.setWindowTitle("Image properties window")
 
 
-
+#Slider
         self.sldbright = QtGui.QSlider(QtCore.Qt.Horizontal, self)
         self.sldbright.setFocusPolicy(QtCore.Qt.NoFocus)
         self.sldbright.setGeometry(40, 20, 300, 30)
         self.sldbright.setValue(50)
         self.sldbright.setMaximum(100)
         self.sldbright.setMinimum(1)
-        #self.sldbright.setDisabled(True)
-        #self.sldbright.valueChanged()
-#        self.sldbright.valueChanged[int].connect(self.brightchanged)
 
         self.sldcontr = QtGui.QSlider(QtCore.Qt.Horizontal, self)
         self.sldcontr.setFocusPolicy(QtCore.Qt.NoFocus)
@@ -30,18 +27,23 @@ class ImagePropWindow(QtGui.QMainWindow):
         self.sldcontr.setValue(50)
         self.sldcontr.setMaximum(100)
         self.sldcontr.setMinimum(1)
-        #self.sldcontr.setDisabled(True)
-        #self.sldcontr.valueChanged[int].connect(self.changeValueContr)
 
         self.sldcolor = QtGui.QSlider(QtCore.Qt.Horizontal, self)
         self.sldcolor.setFocusPolicy(QtCore.Qt.NoFocus)
         self.sldcolor.setGeometry(40, 100, 300, 30)
-        self.sldcolor.setValue(100)
+        self.sldcolor.setValue(50)
         self.sldcolor.setMaximum(100)
         self.sldcolor.setMinimum(1)
-        #self.sldcontr.setDisabled(True)
-        #self.sldcontr.valueChanged[int].connect(self.changeValueContr)
 
+        self.sldsharp = QtGui.QSlider(QtCore.Qt.Horizontal, self)
+        self.sldsharp.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.sldsharp.setGeometry(40, 140, 300, 30)
+        self.sldsharp.setValue(50)
+        self.sldsharp.setMaximum(100)
+        self.sldsharp.setMinimum(1)
+
+
+#Label/Button
         self.labelbright = QtGui.QPushButton(self)
         self.labelbright.setGeometry(10, 20, 22, 22)
         self.labelbright.setIcon(QtGui.QIcon('./res/bright.png'))
@@ -53,6 +55,18 @@ class ImagePropWindow(QtGui.QMainWindow):
         self.labelcontr.setIcon(QtGui.QIcon('./res/contr.png'))
         self.labelcontr.setIconSize(QtCore.QSize(24,24))
         self.labelcontr.clicked.connect(self.setValueContr)
+
+        self.labelcolor = QtGui.QPushButton(self)
+        self.labelcolor.setGeometry(10, 100, 22, 22)
+        self.labelcolor.setIcon(QtGui.QIcon('./res/color.png'))
+        self.labelcolor.setIconSize(QtCore.QSize(24,24))
+        self.labelcolor.clicked.connect(self.setValueColor)
+
+        self.labelsharp = QtGui.QPushButton(self)
+        self.labelsharp.setGeometry(10, 140, 22, 22)
+#        self.labelsharp.setIcon(QtGui.QIcon('./res/color.png'))
+        self.labelsharp.setIconSize(QtCore.QSize(24,24))
+        self.labelsharp.clicked.connect(self.setSharpness)
 
 
         self.setGeometry(300, 300, 380, 170)
@@ -71,6 +85,10 @@ class ImagePropWindow(QtGui.QMainWindow):
         self.sldbright.setValue(50)
     def setValueContr(self):
         self.sldcontr.setValue(50)
+    def setValueColor(self):
+        self.sldcolor.setValue(50)
+    def setSharpness(self):
+        self.sldsharp.setValue(50)
 
     def empty(self):
         pass

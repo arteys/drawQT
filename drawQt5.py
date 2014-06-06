@@ -47,6 +47,7 @@ class MainWindow(QtGui.QMainWindow):
         zoomNormalAction = QtGui.QAction(QtGui.QIcon('./res/zoom.png'), "Zoom 100%", self, shortcut="Ctrl+L",
                 triggered=self.empty)
         zoomCombobox = QtGui.QComboBox()
+        zoomCombobox.addItem(QtGui.QIcon('./res/zoom.png'), 'Zoom')
         zoomCombobox.insertItems(1,["10%","20%","25%","33%","50%","67%","75%","100%","150%","200%","300%","400%"])
 
         menubar = self.menuBar()
@@ -74,7 +75,6 @@ class MainWindow(QtGui.QMainWindow):
         toolbarresult.addAction(histAction)
         toolbarresult.addAction(tableAction)
         toolbarrview = self.addToolBar('Result')
-        toolbarrview.addAction(zoomNormalAction)
         toolbarrview.addWidget(zoomCombobox)
         toolbaredit = self.addToolBar('Edit')
         toolbaredit.addAction(imagePropAction)
@@ -87,10 +87,6 @@ class MainWindow(QtGui.QMainWindow):
         tabchild = tableResultwidget.TableResultWindow(self)
         tabchild.show()
 
-#    def createImagePropWindow(self):# Create image properties widget
-#        self.improp = imagePropwidget.ImagePropWindow(self)
-#        self.connect(self.improp.sldbright, QtCore.SIGNAL('valueChanged(int)'), self.form_widget.updateBrightnessContrast)
-#        self.connect(self.improp.sldcontr, QtCore.SIGNAL('valueChanged(int)'), self.form_widget.updateBrightnessContrast)
 
     def createHistPropWindow(self):           # Create histogram widget
         histchild = histResultwidget.HistResultWindow(self)

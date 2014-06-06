@@ -117,10 +117,11 @@ class Window(QtGui.QWidget):
 
     def createImagePropWindow(self):# Create image properties widget
         self.improp = imagePropwidget.ImagePropWindow(self)
+
         self.connect(self.improp.sldbright, QtCore.SIGNAL('valueChanged(int)'), self.updateImageProperties)
         self.connect(self.improp.sldcontr, QtCore.SIGNAL('valueChanged(int)'), self.updateImageProperties)
         self.connect(self.improp.sldcolor, QtCore.SIGNAL('valueChanged(int)'), self.updateImageProperties)
-
+        self.connect(self.improp.sldsharp, QtCore.SIGNAL('valueChanged(int)'), self.updateImageProperties)
 
     def updateImageProperties(self, evnt):
         if len(self.view.lines) > 0:
@@ -132,13 +133,16 @@ class Window(QtGui.QWidget):
                 self.view.lineCoordinates.append(curCoord)
             self.view.lines = []
 
-        sliderColorValue = self.improp.sldcolor.value()
         sliderBrightnessValue = self.improp.sldbright.value()
         sliderContrastValue = self.improp.sldcontr.value()
+        sliderColorValue = self.improp.sldcolor.value()
+        sliderSharpValue = self.improp.sldsharp.value()
 
-        self.curBr=float(sliderBrightnessValue)/50.0
-        self.curCt=float(sliderContrastValue)/50.0
+        self.curBr = float(sliderBrightnessValue)/50.0
+        self.curCt = float(sliderContrastValue)/50.0
         self.curCl = float(sliderColorValue)/50.0
+        self.curSh = float(sliderSharpValue)/50.0
+
         self.view.scene.clear()
 
         curImageState=self.img
@@ -146,16 +150,25 @@ class Window(QtGui.QWidget):
         curImageStateBr=curImageState
         enhancerBr = ImageEnhance.Brightness(curImageStateBr)
         curImageStateBr = enhancerBr.enhance(self.curBr)
+        curImageState = curImageStateBr
 
         curImageStateCt = curImageState
         enhancerCt = ImageEnhance.Contrast(curImageStateCt)
         curImageStateCt = enhancerCt.enhance(self.curCt)
+        curImageState = curImageStateCt
 
         curImageStateCl = curImageState
         enhancerCl = ImageEnhance.Color(curImageStateCl)
-        curImageStateCt = enhancerCt.enhance(self.curCt)
+        curImageStateCl = enhancerCl.enhance(self.curCl)
+        curImageState = curImageStateCl
 
-        self.imgQ = ImageQt.ImageQt(curImageStateCt)
+        curImageStateSh = curImageState
+        enhancerSh = ImageEnhance.Sharpness(curImageStateSh)
+        curImageStateSh = enhancerSh.enhance(self.curSh)
+        curImageState = curImageStateSh
+
+
+        self.imgQ = ImageQt.ImageQt(curImageState)
         pixMap = QtGui.QPixmap.fromImage(self.imgQ)
         self.pixItem = QtGui.QGraphicsPixmapItem(pixMap)
         self.view.scene.addItem(self.pixItem)
