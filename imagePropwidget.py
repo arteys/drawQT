@@ -69,5 +69,4 @@ class ImagePropWindow(QtGui.QMainWindow):
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     propwindow = ImagePropWindow()
-    propwindow.show()
     sys.exit(app.exec_())

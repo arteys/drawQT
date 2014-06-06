@@ -22,7 +22,6 @@ class MainWindow(QtGui.QMainWindow):
 
         self.setWindowTitle('drawQT')
 
-        self.improp = imagePropwidget.ImagePropWindow(self)
         self.form_widget = drawQt6widget.Window(self)
         self.setCentralWidget(self.form_widget)
 
@@ -42,15 +41,13 @@ class MainWindow(QtGui.QMainWindow):
         tableAction = QtGui.QAction(QtGui.QIcon('./res/table.png'), "Create Result Table", self, shortcut="Ctrl+T",
                 triggered=self.createTableWindow)
         imagePropAction = QtGui.QAction(QtGui.QIcon('./res/improp.png'), "Image Properties", self, shortcut="Ctrl+I",
-                triggered=self.createImagePropWindow)
+                triggered=self.form_widget.createImagePropWindow)
         histAction = QtGui.QAction(QtGui.QIcon('./res/hist.png'), "Create Result Histogram", self, shortcut="Ctrl+H",
                 triggered=self.form_widget.handlePlot)
-        zoomPlusAction = QtGui.QAction(QtGui.QIcon('./res/zoomplus.png'), "Zoom +20%", self, shortcut="Ctrl++",
+        zoomNormalAction = QtGui.QAction(QtGui.QIcon('./res/zoom.png'), "Zoom 100%", self, shortcut="Ctrl+L",
                 triggered=self.empty)
-        zoomMinusAction = QtGui.QAction(QtGui.QIcon('./res/zoomminus.png'), "Zoom -20%", self, shortcut="Ctrl+-",
-                triggered=self.empty)
-        zoomNormalAction = QtGui.QAction(QtGui.QIcon('./res/zoomoptimal.png'), "Zoom 100%", self, shortcut="Ctrl+L",
-                triggered=self.empty)
+        zoomCombobox = QtGui.QComboBox()
+        zoomCombobox.insertItems(1,["10%","20%","25%","33%","50%","67%","75%","100%","150%","200%","300%","400%"])
 
         menubar = self.menuBar()
         fileMenu = menubar.addMenu('File')
@@ -67,8 +64,6 @@ class MainWindow(QtGui.QMainWindow):
         fileMenu.addAction(imagePropAction)
         fileMenu = menubar.addMenu('View')
         fileMenu.addAction(zoomNormalAction)
-        fileMenu.addAction(zoomPlusAction)
-        fileMenu.addAction(zoomMinusAction)
         fileMenu = menubar.addMenu('About')
 
         toolbarfile = self.addToolBar('File')
@@ -80,25 +75,22 @@ class MainWindow(QtGui.QMainWindow):
         toolbarresult.addAction(tableAction)
         toolbarrview = self.addToolBar('Result')
         toolbarrview.addAction(zoomNormalAction)
-        toolbarrview.addAction(zoomPlusAction)
-        toolbarrview.addAction(zoomMinusAction)
+        toolbarrview.addWidget(zoomCombobox)
         toolbaredit = self.addToolBar('Edit')
         toolbaredit.addAction(imagePropAction)
         toolbaredit.addAction(clearAction)
 
-    #Slots
-        self.connect(self.improp.sldbright, QtCore.SIGNAL('valueChanged(int)'),
-                     self.form_widget.updateBrightnessContrast)
-        self.connect(self.improp.sldcontr, QtCore.SIGNAL('valueChanged(int)'),
-                     self.form_widget.updateBrightnessContrast)
+        zoomCombobox.activated[str].connect(self.empty) #This is zoom's slot
 
-    def createTableWindow(self):           # Create image properties widget
+
+    def createTableWindow(self):           # Create table
         tabchild = tableResultwidget.TableResultWindow(self)
         tabchild.show()
 
-    def createImagePropWindow(self):           # Create table widget
-        imchild = imagePropwidget.ImagePropWindow(self)
-        imchild.show()
+#    def createImagePropWindow(self):# Create image properties widget
+#        self.improp = imagePropwidget.ImagePropWindow(self)
+#        self.connect(self.improp.sldbright, QtCore.SIGNAL('valueChanged(int)'), self.form_widget.updateBrightnessContrast)
+#        self.connect(self.improp.sldcontr, QtCore.SIGNAL('valueChanged(int)'), self.form_widget.updateBrightnessContrast)
 
     def createHistPropWindow(self):           # Create histogram widget
         histchild = histResultwidget.HistResultWindow(self)

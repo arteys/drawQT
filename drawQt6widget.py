@@ -16,6 +16,8 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg as NavigationToolbar
 
+import imagePropwidget
+
 
 class Window(QtGui.QWidget):
     def __init__(self, parent):
@@ -112,7 +114,13 @@ class Window(QtGui.QWidget):
             self.slrContrast.setDisabled(False)
         else:
             print("Not open")
-    
+
+    def createImagePropWindow(self):# Create image properties widget
+        self.improp = imagePropwidget.ImagePropWindow(self)
+        self.connect(self.improp.sldbright, QtCore.SIGNAL('valueChanged(int)'), self.updateBrightnessContrast)
+        self.connect(self.improp.sldcontr, QtCore.SIGNAL('valueChanged(int)'), self.updateBrightnessContrast)
+
+
     def updateBrightnessContrast(self, evnt):
         if len(self.view.lines) > 0:
             self.view.lineCoordinates=[]
@@ -122,8 +130,8 @@ class Window(QtGui.QWidget):
                 curCoord=[lF.x1(), lF.y1(), lF.x2(), lF.y2()]           
                 self.view.lineCoordinates.append(curCoord)
             self.view.lines = []      
-        sliderBrightnessValue = self.slrBrightness.value()
-        sliderContrastValue = self.slrContrast.value()
+        sliderBrightnessValue = self.improp.sldbright.value()
+        sliderContrastValue = self.improp.sldcontr.value()
         self.curBr=float(sliderBrightnessValue)/50.0
         self.curCt=float(sliderContrastValue)/50.0
         self.view.scene.clear()     
