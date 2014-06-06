@@ -3,7 +3,8 @@ __author__ = 'arteys'
 
 import sys
 from PyQt4 import QtCore, QtGui
-import drawQt5widget
+#import drawQt6widget
+
 
 class ImagePropWindow(QtGui.QMainWindow):
     def __init__(self, parent=None):
@@ -11,7 +12,6 @@ class ImagePropWindow(QtGui.QMainWindow):
 
         self.setWindowTitle("Image properties window")
 
-        self.draw_widget = drawQt5widget.Window(self)
 
 
         self.sldbright = QtGui.QSlider(QtCore.Qt.Horizontal, self)
@@ -21,7 +21,8 @@ class ImagePropWindow(QtGui.QMainWindow):
         self.sldbright.setMaximum(100)
         self.sldbright.setMinimum(1)
         #self.sldbright.setDisabled(True)
-        #self.sldbright.valueChanged[int].connect(self.empty)
+        #self.sldbright.valueChanged()
+#        self.sldbright.valueChanged[int].connect(self.brightchanged)
 
         self.sldcontr = QtGui.QSlider(QtCore.Qt.Horizontal, self)
         self.sldcontr.setFocusPolicy(QtCore.Qt.NoFocus)
@@ -49,10 +50,13 @@ class ImagePropWindow(QtGui.QMainWindow):
         self.show()
 
     #Slots
-        self.connect(self.sldbright, QtCore.SIGNAL('valueChanged(int)'),
-                     self.draw_widget.updateBrightnessContrast)
-        self.connect(self.sldcontr, QtCore.SIGNAL('valueChanged(int)'),
-                     self.draw_widget.updateBrightnessContrast)
+#        self.connect(self.sldbright, QtCore.SIGNAL('valueChanged(int)'),
+#                     self.drawQt6widget.Window.updateBrightnessContrast)
+#        self.connect(self.sldcontr, QtCore.SIGNAL('valueChanged(int)'),
+#                     self.drawQt6widget.Window.updateBrightnessContrast)
+
+#    def brightchanged(self, value):
+
 
     def setValueBright(self):
         self.sldbright.setValue(50)

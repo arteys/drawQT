@@ -10,7 +10,7 @@ from math import sqrt
 from PIL import Image
 from PIL import ImageQt
 from PIL import ImageEnhance
-import drawQt5widget
+import drawQt6widget
 import imagePropwidget
 import tableResultwidget
 import histResultwidget
@@ -22,8 +22,10 @@ class MainWindow(QtGui.QMainWindow):
 
         self.setWindowTitle('drawQT')
 
-        self.form_widget = drawQt5widget.Window(self)
+        self.improp = imagePropwidget.ImagePropWindow(self)
+        self.form_widget = drawQt6widget.Window(self)
         self.setCentralWidget(self.form_widget)
+
         self.createActions()
 
     def createActions(self):
@@ -42,7 +44,7 @@ class MainWindow(QtGui.QMainWindow):
         imagePropAction = QtGui.QAction(QtGui.QIcon('./res/improp.png'), "Image Properties", self, shortcut="Ctrl+I",
                 triggered=self.createImagePropWindow)
         histAction = QtGui.QAction(QtGui.QIcon('./res/hist.png'), "Create Result Histogram", self, shortcut="Ctrl+H",
-                triggered=self.createHistPropWindow)
+                triggered=self.form_widget.handlePlot)
         zoomPlusAction = QtGui.QAction(QtGui.QIcon('./res/zoomplus.png'), "Zoom +20%", self, shortcut="Ctrl++",
                 triggered=self.empty)
         zoomMinusAction = QtGui.QAction(QtGui.QIcon('./res/zoomminus.png'), "Zoom -20%", self, shortcut="Ctrl+-",
@@ -84,6 +86,12 @@ class MainWindow(QtGui.QMainWindow):
         toolbaredit.addAction(imagePropAction)
         toolbaredit.addAction(clearAction)
 
+    #Slots
+        self.connect(self.improp.sldbright, QtCore.SIGNAL('valueChanged(int)'),
+                     self.form_widget.updateBrightnessContrast)
+        self.connect(self.improp.sldcontr, QtCore.SIGNAL('valueChanged(int)'),
+                     self.form_widget.updateBrightnessContrast)
+
     def createTableWindow(self):           # Create image properties widget
         tabchild = tableResultwidget.TableResultWindow(self)
         tabchild.show()
@@ -95,7 +103,6 @@ class MainWindow(QtGui.QMainWindow):
     def createHistPropWindow(self):           # Create histogram widget
         histchild = histResultwidget.HistResultWindow(self)
         histchild.show()
-
 
     def empty(self):
         pass
