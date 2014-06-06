@@ -77,9 +77,9 @@ class Window(QtGui.QWidget):
         self.connect(self.slrBrightness, QtCore.SIGNAL('valueChanged(int)'),
                      self.lcdBrightness, QtCore.SLOT('display(int)') )
         self.connect(self.slrBrightness, QtCore.SIGNAL('valueChanged(int)'),
-                     self.updateBrightnessContrast)
+                     self.updateImageProperties)
         self.connect(self.slrContrast, QtCore.SIGNAL('valueChanged(int)'),
-                     self.updateBrightnessContrast)
+                     self.updateImageProperties)
         #CONSTANT's
         #self.lineCoordinates=[]
 
@@ -117,11 +117,12 @@ class Window(QtGui.QWidget):
 
     def createImagePropWindow(self):# Create image properties widget
         self.improp = imagePropwidget.ImagePropWindow(self)
-        self.connect(self.improp.sldbright, QtCore.SIGNAL('valueChanged(int)'), self.updateBrightnessContrast)
-        self.connect(self.improp.sldcontr, QtCore.SIGNAL('valueChanged(int)'), self.updateBrightnessContrast)
+        self.connect(self.improp.sldbright, QtCore.SIGNAL('valueChanged(int)'), self.updateImageProperties)
+        self.connect(self.improp.sldcontr, QtCore.SIGNAL('valueChanged(int)'), self.updateImageProperties)
+        self.connect(self.improp.sldcolor, QtCore.SIGNAL('valueChanged(int)'), self.updateImageProperties)
 
 
-    def updateBrightnessContrast(self, evnt):
+    def updateImageProperties(self, evnt):
         if len(self.view.lines) > 0:
             self.view.lineCoordinates=[]
             for i in range(len(self.view.lines)):
@@ -129,18 +130,31 @@ class Window(QtGui.QWidget):
                 lF=l.line()
                 curCoord=[lF.x1(), lF.y1(), lF.x2(), lF.y2()]           
                 self.view.lineCoordinates.append(curCoord)
-            self.view.lines = []      
+            self.view.lines = []
+
+        sliderColorValue = self.improp.sldcolor.value()
         sliderBrightnessValue = self.improp.sldbright.value()
         sliderContrastValue = self.improp.sldcontr.value()
+
         self.curBr=float(sliderBrightnessValue)/50.0
         self.curCt=float(sliderContrastValue)/50.0
-        self.view.scene.clear()     
-        curImageStateBr=self.img
+        self.curCl = float(sliderColorValue)/50.0
+        self.view.scene.clear()
+
+        curImageState=self.img
+
+        curImageStateBr=curImageState
         enhancerBr = ImageEnhance.Brightness(curImageStateBr)
         curImageStateBr = enhancerBr.enhance(self.curBr)
-        curImageStateCt = curImageStateBr
+
+        curImageStateCt = curImageState
         enhancerCt = ImageEnhance.Contrast(curImageStateCt)
         curImageStateCt = enhancerCt.enhance(self.curCt)
+
+        curImageStateCl = curImageState
+        enhancerCl = ImageEnhance.Color(curImageStateCl)
+        curImageStateCt = enhancerCt.enhance(self.curCt)
+
         self.imgQ = ImageQt.ImageQt(curImageStateCt)
         pixMap = QtGui.QPixmap.fromImage(self.imgQ)
         self.pixItem = QtGui.QGraphicsPixmapItem(pixMap)
@@ -148,6 +162,7 @@ class Window(QtGui.QWidget):
         self.view.scene.update()
         if len(self.view.lineCoordinates) > 0:
             self.view.redrawLines(self.view.lineCoordinates)
+
     def handlePlot(self):
         print("Handle plot")
 

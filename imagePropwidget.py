@@ -33,6 +33,15 @@ class ImagePropWindow(QtGui.QMainWindow):
         #self.sldcontr.setDisabled(True)
         #self.sldcontr.valueChanged[int].connect(self.changeValueContr)
 
+        self.sldcolor = QtGui.QSlider(QtCore.Qt.Horizontal, self)
+        self.sldcolor.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.sldcolor.setGeometry(40, 100, 300, 30)
+        self.sldcolor.setValue(100)
+        self.sldcolor.setMaximum(100)
+        self.sldcolor.setMinimum(1)
+        #self.sldcontr.setDisabled(True)
+        #self.sldcontr.valueChanged[int].connect(self.changeValueContr)
+
         self.labelbright = QtGui.QPushButton(self)
         self.labelbright.setGeometry(10, 20, 22, 22)
         self.labelbright.setIcon(QtGui.QIcon('./res/bright.png'))
