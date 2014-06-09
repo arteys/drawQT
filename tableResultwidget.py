@@ -8,6 +8,7 @@ from PyQt4 import QtCore, QtGui
 data = {'col1':['1','2','3'], 'col2':['4','5','6'], 'col3':['7','8','9']}
 
 class TableResultWindow(QtGui.QTableWidget):
+
     def __init__(self, data, *args):
         QtGui.QTableWidget.__init__(self, *args)
         self.data = data

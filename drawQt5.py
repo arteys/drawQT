@@ -84,7 +84,8 @@ class MainWindow(QtGui.QMainWindow):
 
 
     def createTableWindow(self):           # Create table
-        tabchild = tableResultwidget.TableResultWindow(self)
+        data = {'col1':['1','2','3'], 'col2':['4','5','6'], 'col3':['7','8','9']}
+        tabchild = tableResultwidget.TableResultWindow(self, data, 5, 3)
         tabchild.show()
 
 
