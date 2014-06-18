@@ -46,6 +46,14 @@ class MainWindow(QtGui.QMainWindow):
                 triggered=self.form_widget.handlePlot)
         zoomNormalAction = QtGui.QAction(QtGui.QIcon('./res/zoom.png'), "Zoom 100%", self, shortcut="Ctrl+L",
                 triggered=self.empty)
+        moveObjAction = QtGui.QAction(QtGui.QIcon('./res/moveobj.png'), "Move Object", self, shortcut="M",
+                triggered=self.empty)
+        drawCircleAction = QtGui.QAction(QtGui.QIcon('./res/circle.png'), "Draw Circle", self,
+                triggered=self.empty)
+        drawMeasureAction = QtGui.QAction(QtGui.QIcon('./res/measureline.png'), "Draw Measure Line", self,
+                triggered=self.empty)
+        delObjAction = QtGui.QAction(QtGui.QIcon('./res/delete.png'), "Delete Object", self,shortcut="Delete",
+                triggered=self.empty)
         zoomCombobox = QtGui.QComboBox()
         zoomCombobox.addItem(QtGui.QIcon('./res/zoom.png'), 'Zoom')
         zoomCombobox.insertItems(1,["10%","20%","25%","33%","50%","67%","75%","100%","150%","200%","300%","400%"])
@@ -79,6 +87,12 @@ class MainWindow(QtGui.QMainWindow):
         toolbaredit = self.addToolBar('Edit')
         toolbaredit.addAction(imagePropAction)
         toolbaredit.addAction(clearAction)
+        toolbardraw = self.addToolBar('Draw')
+        toolbardraw.addAction(drawMeasureAction)
+        toolbardraw.addAction(drawCircleAction)
+        toolbardraw.addAction(moveObjAction)
+        toolbardraw.addAction(delObjAction)
+
 
         zoomCombobox.activated[str].connect(self.empty) #This is zoom's slot
 

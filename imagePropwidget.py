@@ -64,7 +64,7 @@ class ImagePropWindow(QtGui.QMainWindow):
 
         self.labelsharp = QtGui.QPushButton(self)
         self.labelsharp.setGeometry(10, 140, 22, 22)
-#        self.labelsharp.setIcon(QtGui.QIcon('./res/color.png'))
+        self.labelsharp.setIcon(QtGui.QIcon('./res/sharpness.png'))
         self.labelsharp.setIconSize(QtCore.QSize(24,24))
         self.labelsharp.clicked.connect(self.setSharpness)
 
