@@ -10,10 +10,9 @@ from math import sqrt
 from PIL import Image
 from PIL import ImageQt
 from PIL import ImageEnhance
-import drawQt6widget
-import imagePropwidget
-import tableResultwidget
-import histResultwidget
+import Main
+import ImagePropWindow
+import TableWindow
 
 
 class MainWindow(QtGui.QMainWindow):
@@ -22,7 +21,7 @@ class MainWindow(QtGui.QMainWindow):
 
         self.setWindowTitle('drawQT')
 
-        self.form_widget = drawQt6widget.Window(self)
+        self.form_widget = Main.Window(self)
         self.setCentralWidget(self.form_widget)
 
         self.createActions()
@@ -50,7 +49,15 @@ class MainWindow(QtGui.QMainWindow):
                 triggered=self.empty)
         drawCircleAction = QtGui.QAction(QtGui.QIcon('./res/circle.png'), "Draw Circle", self,
                 triggered=self.empty)
-        drawMeasureAction = QtGui.QAction(QtGui.QIcon('./res/measureline.png'), "Draw Measure Line", self,
+        drawDoubleCircleAction = QtGui.QAction(QtGui.QIcon('./res/doublecircle.png'), "Draw Circle", self,
+                triggered=self.empty)
+        drawMeasureActionR = QtGui.QAction(QtGui.QIcon('./res/measurelinered.png'), "Draw Red Measure Line", self,
+                triggered=self.empty)
+        drawMeasureActionG = QtGui.QAction(QtGui.QIcon('./res/measurelineblue.png'), "Draw Blue Measure Line", self,
+                triggered=self.empty)
+        drawMeasureActionB = QtGui.QAction(QtGui.QIcon('./res/measurelinegreen.png'), "Draw Green Measure Line", self,
+                triggered=self.empty)
+        drawMeasureAction = QtGui.QAction(QtGui.QIcon('./res/calibrationmeasureline.png'), "Draw Calibration line", self,
                 triggered=self.empty)
         delObjAction = QtGui.QAction(QtGui.QIcon('./res/delete.png'), "Delete Object", self,shortcut="Delete",
                 triggered=self.empty)
@@ -88,10 +95,14 @@ class MainWindow(QtGui.QMainWindow):
         toolbaredit.addAction(imagePropAction)
         toolbaredit.addAction(clearAction)
         toolbardraw = self.addToolBar('Draw')
-        toolbardraw.addAction(drawMeasureAction)
+        toolbardraw.addAction(drawMeasureActionR)
+        toolbardraw.addAction(drawMeasureActionG)
+        toolbardraw.addAction(drawMeasureActionB)
         toolbardraw.addAction(drawCircleAction)
+        toolbardraw.addAction(drawDoubleCircleAction)
         toolbardraw.addAction(moveObjAction)
         toolbardraw.addAction(delObjAction)
+        toolbardraw.addAction(drawMeasureAction)
 
 
         zoomCombobox.activated[str].connect(self.empty) #This is zoom's slot
@@ -99,13 +110,10 @@ class MainWindow(QtGui.QMainWindow):
 
     def createTableWindow(self):           # Create table
         data = {'col1':['1','2','3'], 'col2':['4','5','6'], 'col3':['7','8','9']}
-        tabchild = tableResultwidget.TableResultWindow(self, data, 5, 3)
+        tabchild = TableWindow.TableResultWindow(self, data, 5, 3)
         tabchild.show()
 
 
-    def createHistPropWindow(self):           # Create histogram widget
-        histchild = histResultwidget.HistResultWindow(self)
-        histchild.show()
 
     def empty(self):
         pass

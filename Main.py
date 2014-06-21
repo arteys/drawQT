@@ -16,7 +16,7 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg as NavigationToolbar
 
-import imagePropwidget
+import ImagePropWindow
 
 
 class Window(QtGui.QWidget):
@@ -116,7 +116,7 @@ class Window(QtGui.QWidget):
             print("Not open")
 
     def createImagePropWindow(self):# Create image properties widget
-        self.improp = imagePropwidget.ImagePropWindow(self)
+        self.improp = ImagePropWindow.ImagePropWindow(self)
 
         self.connect(self.improp.sldbright, QtCore.SIGNAL('valueChanged(int)'), self.updateImageProperties)
         self.connect(self.improp.sldcontr, QtCore.SIGNAL('valueChanged(int)'), self.updateImageProperties)
@@ -347,6 +347,10 @@ class Qt4MplCanvas(FigureCanvas):
     """Class to represent the FigureCanvas widget"""
     def __init__(self):
         # Standard Matplotlib code to generate the plot
+        """
+
+        :rtype : object
+        """
         self.fig = Figure(facecolor="white")
         self.axes = self.fig.add_subplot(111, axisbg='w', xlabel='diameter, pxl', 
                                          ylabel='fraction, %', title='Distribution')

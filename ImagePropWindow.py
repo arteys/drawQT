@@ -72,14 +72,6 @@ class ImagePropWindow(QtGui.QMainWindow):
         self.setGeometry(300, 300, 380, 170)
         self.show()
 
-    #Slots
-#        self.connect(self.sldbright, QtCore.SIGNAL('valueChanged(int)'),
-#                     self.drawQt6widget.Window.updateBrightnessContrast)
-#        self.connect(self.sldcontr, QtCore.SIGNAL('valueChanged(int)'),
-#                     self.drawQt6widget.Window.updateBrightnessContrast)
-
-#    def brightchanged(self, value):
-
 
     def setValueBright(self):
         self.sldbright.setValue(50)
