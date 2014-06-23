@@ -57,10 +57,13 @@ class MainWindow(QtGui.QMainWindow):
                 triggered=self.empty)
         drawMeasureActionB = QtGui.QAction(QtGui.QIcon('./res/measurelinegreen.png'), "Draw Green Measure Line", self,
                 triggered=self.empty)
+        drawsquareAction = QtGui.QAction(QtGui.QIcon('./res/square.png'), "Draw Calibration line", self,
+                triggered=self.empty)
         drawMeasureAction = QtGui.QAction(QtGui.QIcon('./res/calibrationmeasureline.png'), "Draw Calibration line", self,
                 triggered=self.empty)
         delObjAction = QtGui.QAction(QtGui.QIcon('./res/delete.png'), "Delete Object", self,shortcut="Delete",
                 triggered=self.empty)
+
         zoomCombobox = QtGui.QComboBox()
         zoomCombobox.addItem(QtGui.QIcon('./res/zoom.png'), 'Zoom')
         zoomCombobox.insertItems(1,["10%","20%","25%","33%","50%","67%","75%","100%","150%","200%","300%","400%"])
@@ -100,6 +103,7 @@ class MainWindow(QtGui.QMainWindow):
         toolbardraw.addAction(drawMeasureActionB)
         toolbardraw.addAction(drawCircleAction)
         toolbardraw.addAction(drawDoubleCircleAction)
+        toolbardraw.addAction(drawsquareAction)
         toolbardraw.addAction(moveObjAction)
         toolbardraw.addAction(delObjAction)
         toolbardraw.addAction(drawMeasureAction)
