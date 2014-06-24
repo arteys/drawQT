@@ -3,7 +3,7 @@ __author__ = 'arteys'
 
 import sys
 from PyQt4 import QtCore, QtGui
-#import drawQt6widget
+
 
 
 class ImagePropWindow(QtGui.QMainWindow):
@@ -87,5 +87,4 @@ class ImagePropWindow(QtGui.QMainWindow):
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
-    propwindow = ImagePropWindow()
     sys.exit(app.exec_())

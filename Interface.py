@@ -13,6 +13,7 @@ from PIL import ImageEnhance
 import Main
 import ImagePropWindow
 import TableWindow
+import Calibration
 
 
 class MainWindow(QtGui.QMainWindow):
@@ -49,7 +50,7 @@ class MainWindow(QtGui.QMainWindow):
                 triggered=self.empty)
         drawCircleAction = QtGui.QAction(QtGui.QIcon('./res/circle.png'), "Draw Circle", self,
                 triggered=self.empty)
-        drawDoubleCircleAction = QtGui.QAction(QtGui.QIcon('./res/doublecircle.png'), "Draw Circle", self,
+        drawDoubleCircleAction = QtGui.QAction(QtGui.QIcon('./res/doublecircle.png'), "Draw Multiple Circle", self,
                 triggered=self.empty)
         drawMeasureActionR = QtGui.QAction(QtGui.QIcon('./res/measurelinered.png'), "Draw Red Measure Line", self,
                 triggered=self.empty)
@@ -57,12 +58,12 @@ class MainWindow(QtGui.QMainWindow):
                 triggered=self.empty)
         drawMeasureActionB = QtGui.QAction(QtGui.QIcon('./res/measurelinegreen.png'), "Draw Green Measure Line", self,
                 triggered=self.empty)
-        drawsquareAction = QtGui.QAction(QtGui.QIcon('./res/square.png'), "Draw Calibration line", self,
+        drawsquareAction = QtGui.QAction(QtGui.QIcon('./res/square.png'), "Draw Square", self,
                 triggered=self.empty)
-        drawMeasureAction = QtGui.QAction(QtGui.QIcon('./res/calibrationmeasureline.png'), "Draw Calibration line", self,
+        calibrationAction = QtGui.QAction(QtGui.QIcon('./res/measureline.png'), "Calibration", self,
                 triggered=self.empty)
         delObjAction = QtGui.QAction(QtGui.QIcon('./res/delete.png'), "Delete Object", self,shortcut="Delete",
-                triggered=self.empty)
+                triggered=self.CalibraionLineWindow)
 
         zoomCombobox = QtGui.QComboBox()
         zoomCombobox.addItem(QtGui.QIcon('./res/zoom.png'), 'Zoom')
@@ -106,7 +107,7 @@ class MainWindow(QtGui.QMainWindow):
         toolbardraw.addAction(drawsquareAction)
         toolbardraw.addAction(moveObjAction)
         toolbardraw.addAction(delObjAction)
-        toolbardraw.addAction(drawMeasureAction)
+        toolbardraw.addAction(calibrationAction)
 
 
         zoomCombobox.activated[str].connect(self.empty) #This is zoom's slot
@@ -130,6 +131,11 @@ class MainWindow(QtGui.QMainWindow):
             self.form_widget.handleClearView()
         else:
             pass
+
+    def CalibraionLineWindow(self):
+        self.calibrationwindow = Calibration.CalibrationWindow(self)
+
+
 
     def closeEvent(self, event):
         reply = QtGui.QMessageBox.question(self, 'Message',
