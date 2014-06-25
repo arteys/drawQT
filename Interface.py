@@ -13,7 +13,7 @@ from PIL import ImageEnhance
 import Main
 import ImagePropWindow
 import TableWindow
-import Calibration
+import CalibrationWindow
 
 
 class MainWindow(QtGui.QMainWindow):
@@ -44,8 +44,6 @@ class MainWindow(QtGui.QMainWindow):
                 triggered=self.form_widget.createImagePropWindow)
         histAction = QtGui.QAction(QtGui.QIcon('./res/hist.png'), "Create Result Histogram", self, shortcut="Ctrl+H",
                 triggered=self.form_widget.handlePlot)
-        zoomNormalAction = QtGui.QAction(QtGui.QIcon('./res/zoom.png'), "Zoom 100%", self, shortcut="Ctrl+L",
-                triggered=self.empty)
         moveObjAction = QtGui.QAction(QtGui.QIcon('./res/moveobj.png'), "Move Object", self, shortcut="M",
                 triggered=self.empty)
         drawCircleAction = QtGui.QAction(QtGui.QIcon('./res/circle.png'), "Draw Circle", self,
@@ -61,9 +59,9 @@ class MainWindow(QtGui.QMainWindow):
         drawsquareAction = QtGui.QAction(QtGui.QIcon('./res/square.png'), "Draw Square", self,
                 triggered=self.empty)
         calibrationAction = QtGui.QAction(QtGui.QIcon('./res/measureline.png'), "Calibration", self,
-                triggered=self.empty)
-        delObjAction = QtGui.QAction(QtGui.QIcon('./res/delete.png'), "Delete Object", self,shortcut="Delete",
                 triggered=self.CalibraionLineWindow)
+        delObjAction = QtGui.QAction(QtGui.QIcon('./res/delete.png'), "Delete Object", self,shortcut="Delete",
+                triggered=self.empty)
 
         zoomCombobox = QtGui.QComboBox()
         zoomCombobox.addItem(QtGui.QIcon('./res/zoom.png'), 'Zoom')
@@ -83,7 +81,6 @@ class MainWindow(QtGui.QMainWindow):
         fileMenu.addAction(clearAction)
         fileMenu.addAction(imagePropAction)
         fileMenu = menubar.addMenu('View')
-        fileMenu.addAction(zoomNormalAction)
         fileMenu = menubar.addMenu('About')
 
         toolbarfile = self.addToolBar('File')
@@ -133,7 +130,7 @@ class MainWindow(QtGui.QMainWindow):
             pass
 
     def CalibraionLineWindow(self):
-        self.calibrationwindow = Calibration.CalibrationWindow(self)
+        self.calibrationwindow = CalibrationWindow.CalibrationWindow(self)
 
 
 

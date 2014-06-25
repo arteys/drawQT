@@ -69,7 +69,7 @@ class ImagePropWindow(QtGui.QMainWindow):
         self.labelsharp.clicked.connect(self.setSharpness)
 
 
-        self.setGeometry(300, 300, 380, 170)
+        self.setGeometry(310, 310, 390, 180)
         self.show()
 
 

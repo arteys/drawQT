@@ -1,58 +1,57 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
-"""
-ZetCode PyQt4 tutorial
-
-This example shows
-how to use QtGui.QComboBox widget.
-
-author: Jan Bodnar
-website: zetcode.com
-last edited: September 2011
-"""
-
 import sys
 from PyQt4 import QtGui, QtCore
 
-class Example(QtGui.QWidget):
+class ComboBoxBasic(QtGui.QWidget):
+    """
+    An basic example combo box application
+    """
 
     def __init__(self):
-        super(Example, self).__init__()
+        # create GUI
+        QtGui.QMainWindow.__init__(self)
+        self.setWindowTitle('Combo Box Basic')
+        # Set the window dimensions
+        self.resize(250,50)
 
-        self.initUI()
+        # vertical layout for widgets
+        self.vbox = QtGui.QVBoxLayout()
+        self.setLayout(self.vbox)
 
-    def initUI(self):
+        # Create a combo box and add it to our layout
+        self.combo = QtGui.QComboBox()
+        self.vbox.addWidget(self.combo)
 
-        self.lbl = QtGui.QLabel("Ubuntu", self)
+        # A label to display our selection
+        self.lbl = QtGui.QLabel('Ubuntu')
+        # Center align text
+        self.lbl.setAlignment(QtCore.Qt.AlignHCenter)
+        self.vbox.addWidget(self.lbl)
 
-        combo = QtGui.QComboBox(self)
-        combo.addItem("Ubuntu")
-        combo.addItem("Mandriva")
-        combo.addItem("Fedora")
-        combo.addItem("Red Hat")
-        combo.addItem("Gentoo")
+        # You can add items individually:
+        self.combo.addItem('Ubuntu')
+        self.combo.addItem('Fedora')
 
-        combo.move(50, 50)
-        self.lbl.move(50, 150)
+        # Or add a sequence in one call
+        distrolist = ['Linux Mint', 'Gentoo', 'Mandriva']
+        self.combo.addItems(distrolist)
 
-        combo.activated[str].connect(self.onActivated)
+        # Connect the activated signal on the combo box to our handler.
+        # This is an overloaded signal, meaning there are variants of it, for
+        # example the activated(int) variant emits the index of the chosen
+        # option, rather than it's text
+        self.connect(self.combo, QtCore.SIGNAL('activated(QString)'), self.combo_chosen)
 
-        self.setGeometry(300, 300, 300, 200)
-        self.setWindowTitle('QtGui.QComboBox')
-        self.show()
-
-    def onActivated(self, text):
-
+    def combo_chosen(self, text):
+        """
+        Handler called when a distro is chosen from the combo box
+        """
         self.lbl.setText(text)
-        self.lbl.adjustSize()
 
-def main():
 
+# If the program is run directly or passed as an argument to the python
+# interpreter then create a ComboBoxBasic instance and show it
+if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
-    ex = Example()
-    sys.exit(app.exec_())
-
-
-if __name__ == '__main__':
-    main()
+    gui = ComboBoxBasic()
+    gui.show()
+    app.exec_()
